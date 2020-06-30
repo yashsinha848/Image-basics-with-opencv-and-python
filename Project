@@ -1,0 +1,144 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+from PIL import Image
+
+img=Image.open('rock.jpg')
+#plt.show(img)
+print(img.rotate(-90))
+print(type(img))
+
+#turn image into array
+img_array=np.asarray(img)
+print(type(img_array))
+
+#get image shape height and width
+print(img_array.shape)
+plt.imshow(img_array)
+#plt.show()
+
+img_test=img_array
+#colour channels- 0 for red , 1 for green , 2 for blue
+#print red channel
+plt.imshow(img_test[:,:,0])
+#plt.show()
+
+#scale red channel to grey
+plt.imshow(img_test[:,:,0],cmap='gray')
+#plt.show()
+
+#print green channel
+plt.imshow(img_test[:,:,1])
+#plt.show()
+
+#print blue channel
+plt.imshow(img_test[:,:,2])
+#plt.show()
+
+#remove red colour and it doesnt work
+#img_test[: , : , 1] = 0
+#plt.imshow(img_test)
+#plt.show()
+#until now we were using matplot which has RGB
+#and opencv has BGR
+import cv2
+img=cv2.imread('rock.jpg')
+print(type(img))
+print(img.shape)
+plt.imshow(img)
+#plt.show()
+
+#we will convert opencv to channels of photo
+img_fix=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+plt.imshow(img_fix)
+#plt.show()
+
+img_gray=cv2.imread('rock.jpg',cv2.IMREAD_GRAYSCALE)
+print(img_gray.shape)
+
+#resize the image
+img_new=cv2.resize(img_fix,(1000,400))
+plt.imshow(img_new)
+#plt.show()
+
+#resize the image
+width_ratio=0.5
+height_ratio=0.5
+img2=cv2.resize(img_fix,(0,0),img_fix,width_ratio,height_ratio)
+plt.imshow(img2)
+#plt.show()
+
+print(img2.shape)
+
+#flip on horizontal axis
+img_3=cv2.flip(img_fix,0)
+plt.imshow(img_3)
+plt.show()
+
+#flip on vertical axis
+img_3=cv2.flip(img_fix,1)
+plt.imshow(img_3)
+plt.show()
+
+img_3=cv2.flip(img_fix,-1)
+plt.imshow(img_3)
+plt.show()
+
+#change size of canvas
+last_img=plt.figure(figsize=(10,7))
+ilp=last_img.add_subplot(111)
+ilp.imshow(img_fix)
+#plt.show()
+
+#draw shapes on images
+
+#create a black image
+black_img=np.zeros(shape=(512,512,3),dtype=np.int16)
+#check size of image
+print(black_img.shape)
+
+plt.imshow(black_img)
+#plt.show()
+
+#draw a circle
+print(cv2.circle(img=black_img,center=(400,100),radius=5,color=(255,0,0),thickness=8))
+plt.imshow(black_img)
+#plt.show()
+
+#draw a filled circle
+print(cv2.circle(img=black_img,center=(400,200),radius=50,color=(0,255,0),thickness=-1))
+plt.imshow(black_img)
+#plt.show()
+
+#draw a rectangle
+cv2.rectangle(black_img,pt1=(200,200),pt2=(300,300),color=(0,255,0),thickness=5)
+plt.imshow(black_img)
+#plt.show()
+
+#draw triangle
+vertices=np.array([[10,450],[110,350],[180,450]],np.int32)
+
+pts=vertices.reshape(-1,1,2)
+cv2.polylines(black_img,[pts],isClosed=True,color=(0,0,255),thickness=3)
+plt.imshow(black_img)
+#plt.show()
+
+#draw filled triangle
+vertices=np.array([[10,250],[110,150],[180,250]],np.int32)
+
+pts=vertices.reshape(-1,1,2)
+cv2.fillPoly(black_img,[pts],color=(255,167,201))
+plt.imshow(black_img)
+#plt.show()
+
+#draw line
+cv2.line(black_img,pt1=(512,0),pt2=(0,512),color=(255,0,255),thickness=3)
+plt.imshow(black_img)
+#plt.show()
+
+#write text
+font=cv2.FONT_HERSHEY_SIMPLEX
+
+cv2.putText(black_img,text='I am Yash',org=(210,500),fontFace=font,fontScale=3,color=(255,255,0),thickness=3,lineType=cv2.LINE_AA)
+plt.imshow(black_img)
+plt.show()
